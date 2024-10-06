@@ -1,0 +1,5 @@
+{"timestamp":1728238953004,"username":"","processName":"","processId":"","processCommandLine":"arg1,arg2"}
+{"timestamp":1728238953007,"username":"","processName":"","processId":"","processCommandLine":"","path":"./file-create.md","action":"create"}
+{"timestamp":1728238953007,"username":"","processName":"","processId":"","processCommandLine":"","path":"./file-modify.md","action":"modify"}
+{"timestamp":1728238953007,"username":"","processName":"","processId":"","processCommandLine":"","path":"./file-create.md","action":"delete"}
+{"timestamp":1728238953008,"username":"","processName":"","processId":"","processCommandLine":"","destinationAddress":"192.123.1.1","destinationPort":80,"sourceAddress":"192.123.1.1","sourcePort":80,"dataSentProtocol":1234,"protocol":""}

@@ -2,16 +2,16 @@ import { startProcess, createFile, modifyFile, deleteFile, establishNetworkConne
 import { logActivity } from './logger';
 
 const runSimulation = () => {
-  const processStart = startProcess('/path/to/executable', ['arg1', 'arg2']);
+  const processStart = startProcess('./executable.js', ['arg1', 'arg2']);
   logActivity(processStart);
 
-  const fileCreation = createFile('/path/to/file', 'Hello world!');
+  const fileCreation = createFile('./file-create.md', 'Hello world!');
   logActivity(fileCreation);
 
-  const fileModification = modifyFile('/path/to/file', 'HELLO WORLD');
+  const fileModification = modifyFile('./file-modify.md', 'HELLO WORLD');
   logActivity(fileModification);
 
-  const fileDeletion = deleteFile('/path/to/file');
+  const fileDeletion = deleteFile('./file-create.md');
   logActivity(fileDeletion);
 
   const networkActivity = establishNetworkConnection('192.123.1.1', 80, 1234);
