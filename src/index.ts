@@ -1,21 +1,24 @@
 import { startProcess, createFile, modifyFile, deleteFile, establishNetworkConnection } from './activities';
 import { logActivity } from './logger';
 
-const runSimulation = () => {
-  const processStart = startProcess('./executable.js', ['arg1', 'arg2']);
+const args = process.argv.slice(2);
+const username = args.shift() ?? 'unknown';
+
+const runSimulation = (username: string, args: string[]) => {
+  const processStart = startProcess('./executable.js', args, username);
   logActivity(processStart);
 
-  const fileCreation = createFile('./file-create.md', 'Hello world!');
+  const fileCreation = createFile('./file-create.md', 'Hello world!', username);
   logActivity(fileCreation);
 
-  const fileModification = modifyFile('./file-modify.md', 'HELLO WORLD');
+  const fileModification = modifyFile('./file-modify.md', 'HELLO WORLD', username);
   logActivity(fileModification);
 
-  const fileDeletion = deleteFile('./file-create.md');
+  const fileDeletion = deleteFile('./file-create.md', username);
   logActivity(fileDeletion);
 
-  const networkActivity = establishNetworkConnection('192.123.1.1', 80, 1234);
+  const networkActivity = establishNetworkConnection('192.123.1.1', 80, 1234, username);
   logActivity(networkActivity);
 };
 
-runSimulation();
+runSimulation(username, args);

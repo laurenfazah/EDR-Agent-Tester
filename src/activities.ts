@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
 
-export const startProcess = (filePath: string, args: string[]): BaseActivity => {
+export const startProcess = (filePath: string, args: string[], username: string): BaseActivity => {
   let timestamp = Date.now();
 
   // TODO: execute file at path
@@ -9,21 +9,21 @@ export const startProcess = (filePath: string, args: string[]): BaseActivity => 
 
   return {
     timestamp: timestamp,
-    username: '',
+    username: username,
     processName: '',
     processId: '',
     processCommandLine: args.join()
   };
 };
 
-export const createFile = (filePath: string, content: string): FileActivity => {
+export const createFile = (filePath: string, content: string, username: string): FileActivity => {
   let timestamp = Date.now();
 
   fs.writeFileSync(filePath, content);
 
   return {
     timestamp: timestamp,
-    username: '',
+    username: username,
     processName: '',
     processId: '',
     processCommandLine: '',
@@ -32,7 +32,7 @@ export const createFile = (filePath: string, content: string): FileActivity => {
   };
 };
 
-export const modifyFile = (filePath: string, change: string): FileActivity => {
+export const modifyFile = (filePath: string, change: string, username: string): FileActivity => {
   // TODO | QUESTION: what is being modified? contents?
   // would use fs.appendFile if we're adding to file
   // would use fs.writeFile if we're overwriting existing file contents (assuming this for now)
@@ -43,7 +43,7 @@ export const modifyFile = (filePath: string, change: string): FileActivity => {
 
   return {
     timestamp: timestamp,
-    username: '',
+    username: username,
     processName: '',
     processId: '',
     processCommandLine: '',
@@ -52,14 +52,14 @@ export const modifyFile = (filePath: string, change: string): FileActivity => {
   };
 };
 
-export const deleteFile = (filePath: string): FileActivity => {
+export const deleteFile = (filePath: string, username: string): FileActivity => {
   let timestamp = Date.now();
 
   fs.unlinkSync(filePath);
 
   return {
     timestamp: timestamp,
-    username: '',
+    username: username,
     processName: '',
     processId: '',
     processCommandLine: '',
@@ -68,12 +68,12 @@ export const deleteFile = (filePath: string): FileActivity => {
   };
 };
 
-export const establishNetworkConnection = (dest: string, port: number, data: number): NetworkActivity => {
+export const establishNetworkConnection = (dest: string, port: number, data: number, username: string): NetworkActivity => {
   let timestamp = Date.now();
 
   return {
     timestamp: timestamp,
-    username: '',
+    username: username,
     processName: '',
     processId: '',
     processCommandLine: '',
