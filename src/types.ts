@@ -4,7 +4,7 @@ export interface BaseActivity {
   timestamp: number;
   username: string;
   processName: string;
-  processId: string;
+  processId: number;
   processCommandLine: string;
 }
 

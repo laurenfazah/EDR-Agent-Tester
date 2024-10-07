@@ -1,18 +1,26 @@
 import fs from 'fs';
+import { exec } from 'child_process';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
 
-export const startProcess = (filePath: string, args: string[], username: string): BaseActivity => {
-  let timestamp = Date.now();
+export const startProcess = (path: string, args: string[], username: string): BaseActivity => {
+  const execCommand = `${path} ${args.join(' ')}`;
+  const processName = path.split('/').pop() || path;
+  const timestamp = Date.now();
 
-  // TODO: execute file at path
-  console.log(filePath);
+  exec(execCommand, (error, stdout, _stderr) => {
+    if (error) {
+      console.log(`Error executing process: ${error}`);
+    } else {
+      console.log(`Process output: ${stdout}`);
+    }
+  });
 
   return {
     timestamp: timestamp,
     username: username,
-    processName: '',
-    processId: '',
-    processCommandLine: args.join()
+    processName: processName,
+    processId: Math.floor(Math.random() * 10000),
+    processCommandLine: execCommand
   };
 };
 
@@ -25,7 +33,7 @@ export const createFile = (filePath: string, content: string, username: string):
     timestamp: timestamp,
     username: username,
     processName: '',
-    processId: '',
+    processId: Math.floor(Math.random() * 10000),
     processCommandLine: '',
     path: filePath,
     action: 'create'
@@ -45,7 +53,7 @@ export const modifyFile = (filePath: string, change: string, username: string): 
     timestamp: timestamp,
     username: username,
     processName: '',
-    processId: '',
+    processId: Math.floor(Math.random() * 10000),
     processCommandLine: '',
     path: filePath,
     action: 'modify'
@@ -61,7 +69,7 @@ export const deleteFile = (filePath: string, username: string): FileActivity => 
     timestamp: timestamp,
     username: username,
     processName: '',
-    processId: '',
+    processId: Math.floor(Math.random() * 10000),
     processCommandLine: '',
     path: filePath,
     action: 'delete'
@@ -75,7 +83,7 @@ export const establishNetworkConnection = (dest: string, port: number, data: num
     timestamp: timestamp,
     username: username,
     processName: '',
-    processId: '',
+    processId: Math.floor(Math.random() * 10000),
     processCommandLine: '',
     destinationAddress: dest,
     destinationPort: port,

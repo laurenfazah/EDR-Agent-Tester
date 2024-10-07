@@ -5,7 +5,7 @@ const args = process.argv.slice(2);
 const username = args.shift() ?? 'unknown';
 
 const runSimulation = (username: string, args: string[]) => {
-  const processStart = startProcess('./executable.js', args, username);
+  const processStart = startProcess('./scripts/http_request.sh', args, username);
   logActivity(processStart);
 
   const fileCreation = createFile('./file-create.md', 'Hello world!', username);
