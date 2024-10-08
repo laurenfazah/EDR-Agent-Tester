@@ -18,6 +18,6 @@ export interface NetworkActivity extends BaseActivity {
   destinationPort: number;
   sourceAddress: string;
   sourcePort: number;
-  dataSentProtocol: number;
+  dataAmountSent: number;
   protocol: string;
 }

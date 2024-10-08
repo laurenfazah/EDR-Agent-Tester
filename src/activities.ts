@@ -1,10 +1,10 @@
 import fs from 'fs';
+import net from 'net';
 import { exec } from 'child_process';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
 
 export const startProcess = (path: string, args: string[], username: string): BaseActivity => {
   const execCommand = `${path} ${args.join(' ')}`;
-  const processName = path.split('/').pop() || path;
   const timestamp = Date.now();
 
   exec(execCommand, (error, stdout, _stderr) => {
@@ -18,7 +18,7 @@ export const startProcess = (path: string, args: string[], username: string): Ba
   return {
     timestamp: timestamp,
     username: username,
-    processName: processName,
+    processName: path,
     processId: Math.floor(Math.random() * 10000),
     processCommandLine: execCommand
   };
@@ -76,8 +76,30 @@ export const deleteFile = (filePath: string, username: string): FileActivity => 
   };
 };
 
-export const establishNetworkConnection = (dest: string, port: number, data: number, username: string): NetworkActivity => {
+export const establishNetworkConnection = (dest: string, port: number, username: string): NetworkActivity => {
+  const protocol = 'tcp';
+  const sourceAddress = '127.0.0.1';
+  const sourcePort = Math.floor(Math.random() * 10000);
+  const client = new net.Socket();
+
+  let totalDataSent = 0;
   let timestamp = Date.now();
+
+  client.connect(port, dest, () => {
+    console.log(`Connecting from ${sourceAddress}:${sourcePort} to ${dest}:${port}`);
+
+    const data = Buffer.from('This is a stand-in for transmitted data.');
+    totalDataSent = data.length;
+    client.write(data);
+  });
+
+  client.on('close', () => {
+    console.log('Connection closed.');
+  });
+
+  client.on('error', (error) => {
+    console.log(`Connection error: ${error.message}`);
+  });
 
   return {
     timestamp: timestamp,
@@ -87,9 +109,9 @@ export const establishNetworkConnection = (dest: string, port: number, data: num
     processCommandLine: '',
     destinationAddress: dest,
     destinationPort: port,
-    sourceAddress: dest, // TODO
-    sourcePort: port, // TODO
-    dataSentProtocol: data,
-    protocol: ''
+    sourceAddress: sourceAddress,
+    sourcePort: sourcePort,
+    dataAmountSent: totalDataSent,
+    protocol: protocol
   };
 };

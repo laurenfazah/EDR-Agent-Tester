@@ -1,5 +1,5 @@
-{"timestamp":1728238953004,"username":"","processName":"","processId":"","processCommandLine":"arg1,arg2"}
-{"timestamp":1728238953007,"username":"","processName":"","processId":"","processCommandLine":"","path":"./file-create.md","action":"create"}
-{"timestamp":1728238953007,"username":"","processName":"","processId":"","processCommandLine":"","path":"./file-modify.md","action":"modify"}
-{"timestamp":1728238953007,"username":"","processName":"","processId":"","processCommandLine":"","path":"./file-create.md","action":"delete"}
-{"timestamp":1728238953008,"username":"","processName":"","processId":"","processCommandLine":"","destinationAddress":"192.123.1.1","destinationPort":80,"sourceAddress":"192.123.1.1","sourcePort":80,"dataSentProtocol":1234,"protocol":""}
+{"timestamp":1728349461658,"username":"laurenf","processName":"./scripts/http_request.sh","processId":4114,"processCommandLine":"./scripts/http_request.sh https://example.com"}
+{"timestamp":1728349461662,"username":"laurenf","processName":"","processId":7320,"processCommandLine":"","path":"./file-create.md","action":"create"}
+{"timestamp":1728349461662,"username":"laurenf","processName":"","processId":8463,"processCommandLine":"","path":"./file-modify.md","action":"modify"}
+{"timestamp":1728349461663,"username":"laurenf","processName":"","processId":6642,"processCommandLine":"","path":"./file-create.md","action":"delete"}
+{"timestamp":1728349461663,"username":"laurenf","processName":"","processId":1433,"processCommandLine":"","destinationAddress":"example.com","destinationPort":80,"sourceAddress":"127.0.0.1","sourcePort":314,"dataAmountSent":0,"protocol":"tcp"}

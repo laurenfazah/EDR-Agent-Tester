@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.establishNetworkConnection = exports.deleteFile = exports.modifyFile = exports.createFile = exports.startProcess = void 0;
 const fs_1 = __importDefault(require("fs"));
+const net_1 = __importDefault(require("net"));
 const child_process_1 = require("child_process");
 const startProcess = (path, args, username) => {
     const execCommand = `${path} ${args.join(' ')}`;
-    const processName = path.split('/').pop() || path;
     const timestamp = Date.now();
     (0, child_process_1.exec)(execCommand, (error, stdout, _stderr) => {
         if (error) {
-            console.error(`Error executing process: ${error}`);
+            console.log(`Error executing process: ${error}`);
         }
         else {
             console.log(`Process output: ${stdout}`);
@@ -21,7 +21,7 @@ const startProcess = (path, args, username) => {
     return {
         timestamp: timestamp,
         username: username,
-        processName: processName,
+        processName: path,
         processId: Math.floor(Math.random() * 10000),
         processCommandLine: execCommand
     };
@@ -72,8 +72,25 @@ const deleteFile = (filePath, username) => {
     };
 };
 exports.deleteFile = deleteFile;
-const establishNetworkConnection = (dest, port, data, username) => {
+const establishNetworkConnection = (dest, port, username) => {
+    const protocol = 'tcp';
+    const sourceAddress = '127.0.0.1';
+    const sourcePort = Math.floor(Math.random() * 10000);
+    const client = new net_1.default.Socket();
+    let totalDataSent = 0;
     let timestamp = Date.now();
+    client.connect(port, dest, () => {
+        console.log(`Connecting from ${sourceAddress}:${sourcePort} to ${dest}:${port}`);
+        const data = Buffer.from('This is a stand-in for transmitted data.');
+        totalDataSent = data.length;
+        client.write(data);
+    });
+    client.on('close', () => {
+        console.log('Connection closed.');
+    });
+    client.on('error', (error) => {
+        console.log(`Connection error: ${error.message}`);
+    });
     return {
         timestamp: timestamp,
         username: username,
@@ -82,10 +99,10 @@ const establishNetworkConnection = (dest, port, data, username) => {
         processCommandLine: '',
         destinationAddress: dest,
         destinationPort: port,
-        sourceAddress: dest, // TODO
-        sourcePort: port, // TODO
-        dataSentProtocol: data,
-        protocol: ''
+        sourceAddress: sourceAddress,
+        sourcePort: sourcePort,
+        dataAmountSent: totalDataSent,
+        protocol: protocol
     };
 };
 exports.establishNetworkConnection = establishNetworkConnection;

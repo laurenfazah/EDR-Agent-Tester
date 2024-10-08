@@ -14,7 +14,7 @@ const runSimulation = (username, args) => {
     (0, logger_1.logActivity)(fileModification);
     const fileDeletion = (0, activities_1.deleteFile)('./file-create.md', username);
     (0, logger_1.logActivity)(fileDeletion);
-    const networkActivity = (0, activities_1.establishNetworkConnection)('192.123.1.1', 80, 1234, username);
+    const networkActivity = (0, activities_1.establishNetworkConnection)('example.com', 80, username);
     (0, logger_1.logActivity)(networkActivity);
 };
 runSimulation(username, args);
