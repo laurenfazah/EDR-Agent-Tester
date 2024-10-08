@@ -32,9 +32,9 @@ export const createFile = (filePath: string, content: string, username: string):
   return {
     timestamp: timestamp,
     username: username,
-    processName: '',
+    processName: 'touch',
     processId: Math.floor(Math.random() * 10000),
-    processCommandLine: '',
+    processCommandLine: `touch ${filePath}`,
     path: filePath,
     action: 'create'
   };
@@ -52,9 +52,9 @@ export const modifyFile = (filePath: string, change: string, username: string): 
   return {
     timestamp: timestamp,
     username: username,
-    processName: '',
+    processName: 'vim',
     processId: Math.floor(Math.random() * 10000),
-    processCommandLine: '',
+    processCommandLine: `vim ${filePath}`,
     path: filePath,
     action: 'modify'
   };
@@ -68,9 +68,9 @@ export const deleteFile = (filePath: string, username: string): FileActivity => 
   return {
     timestamp: timestamp,
     username: username,
-    processName: '',
+    processName: 'rm',
     processId: Math.floor(Math.random() * 10000),
-    processCommandLine: '',
+    processCommandLine: `rm ${filePath}`,
     path: filePath,
     action: 'delete'
   };
@@ -104,9 +104,9 @@ export const establishNetworkConnection = (dest: string, port: number, username:
   return {
     timestamp: timestamp,
     username: username,
-    processName: '',
+    processName: 'curl',
     processId: Math.floor(Math.random() * 10000),
-    processCommandLine: '',
+    processCommandLine: `curl http://${dest}:${port}`,
     destinationAddress: dest,
     destinationPort: port,
     sourceAddress: sourceAddress,

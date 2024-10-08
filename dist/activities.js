@@ -33,9 +33,9 @@ const createFile = (filePath, content, username) => {
     return {
         timestamp: timestamp,
         username: username,
-        processName: '',
+        processName: 'touch',
         processId: Math.floor(Math.random() * 10000),
-        processCommandLine: '',
+        processCommandLine: `touch ${filePath}`,
         path: filePath,
         action: 'create'
     };
@@ -50,9 +50,9 @@ const modifyFile = (filePath, change, username) => {
     return {
         timestamp: timestamp,
         username: username,
-        processName: '',
+        processName: 'vim',
         processId: Math.floor(Math.random() * 10000),
-        processCommandLine: '',
+        processCommandLine: `vim ${filePath}`,
         path: filePath,
         action: 'modify'
     };
@@ -64,9 +64,9 @@ const deleteFile = (filePath, username) => {
     return {
         timestamp: timestamp,
         username: username,
-        processName: '',
+        processName: 'rm',
         processId: Math.floor(Math.random() * 10000),
-        processCommandLine: '',
+        processCommandLine: `rm ${filePath}`,
         path: filePath,
         action: 'delete'
     };
@@ -94,9 +94,9 @@ const establishNetworkConnection = (dest, port, username) => {
     return {
         timestamp: timestamp,
         username: username,
-        processName: '',
+        processName: 'curl',
         processId: Math.floor(Math.random() * 10000),
-        processCommandLine: '',
+        processCommandLine: `curl http://${dest}:${port}`,
         destinationAddress: dest,
         destinationPort: port,
         sourceAddress: sourceAddress,
