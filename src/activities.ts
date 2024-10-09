@@ -1,9 +1,11 @@
 import fs from 'fs';
 import net from 'net';
+import os from 'os';
 import { exec } from 'child_process';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
 
-export const startProcess = (path: string, args: string[], username: string): BaseActivity => {
+export const startProcess = (path: string, args: string[]): BaseActivity => {
+  const username = os.userInfo().username;
   const execCommand = `${path} ${args.join(' ')}`;
   const timestamp = Date.now();
 
@@ -24,7 +26,8 @@ export const startProcess = (path: string, args: string[], username: string): Ba
   };
 };
 
-export const createFile = (filePath: string, content: string, username: string): FileActivity => {
+export const createFile = (filePath: string, content: string): FileActivity => {
+  const username = os.userInfo().username;
   let timestamp = Date.now();
 
   fs.writeFileSync(filePath, content);
@@ -40,7 +43,8 @@ export const createFile = (filePath: string, content: string, username: string):
   };
 };
 
-export const modifyFile = (filePath: string, change: string, username: string): FileActivity => {
+export const modifyFile = (filePath: string, change: string): FileActivity => {
+  const username = os.userInfo().username;
   // TODO | QUESTION: what is being modified? contents?
   // would use fs.appendFile if we're adding to file
   // would use fs.writeFile if we're overwriting existing file contents (assuming this for now)
@@ -60,7 +64,8 @@ export const modifyFile = (filePath: string, change: string, username: string): 
   };
 };
 
-export const deleteFile = (filePath: string, username: string): FileActivity => {
+export const deleteFile = (filePath: string): FileActivity => {
+  const username = os.userInfo().username;
   let timestamp = Date.now();
 
   fs.unlinkSync(filePath);
@@ -76,9 +81,10 @@ export const deleteFile = (filePath: string, username: string): FileActivity => 
   };
 };
 
-export const establishNetworkConnection = (dest: string, port: number, username: string): NetworkActivity => {
+export const establishNetworkConnection = (dest: string, port: number): NetworkActivity => {
   const protocol = 'tcp';
   const sourceAddress = '127.0.0.1';
+  const username = os.userInfo().username;
   const sourcePort = Math.floor(Math.random() * 10000);
   const client = new net.Socket();
 

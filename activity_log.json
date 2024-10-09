@@ -1,5 +1,10 @@
-{"timestamp":1728352267857,"username":"laurenf","processName":"./scripts/http_request.sh","processId":7612,"processCommandLine":"./scripts/http_request.sh https://example.com"}
-{"timestamp":1728352267861,"username":"laurenf","processName":"touch","processId":1320,"processCommandLine":"touch ./file-create.md","path":"./file-create.md","action":"create"}
-{"timestamp":1728352267861,"username":"laurenf","processName":"vim","processId":6586,"processCommandLine":"vim ./file-modify.md","path":"./file-modify.md","action":"modify"}
-{"timestamp":1728352267861,"username":"laurenf","processName":"rm","processId":8453,"processCommandLine":"rm ./file-create.md","path":"./file-create.md","action":"delete"}
-{"timestamp":1728352267862,"username":"laurenf","processName":"curl","processId":6990,"processCommandLine":"curl http://example.com:80","destinationAddress":"example.com","destinationPort":80,"sourceAddress":"127.0.0.1","sourcePort":9635,"dataAmountSent":0,"protocol":"tcp"}
+{"timestamp":1728497769383,"username":"laurenfazah","processName":"./scripts/http_request.sh","processId":8846,"processCommandLine":"./scripts/http_request.sh "}
+{"timestamp":1728497769387,"username":"laurenfazah","processName":"touch","processId":8823,"processCommandLine":"touch ./file-create.md","path":"./file-create.md","action":"create"}
+{"timestamp":1728497769387,"username":"laurenfazah","processName":"vim","processId":7818,"processCommandLine":"vim ./file-modify.md","path":"./file-modify.md","action":"modify"}
+{"timestamp":1728497769388,"username":"laurenfazah","processName":"rm","processId":3181,"processCommandLine":"rm ./file-create.md","path":"./file-create.md","action":"delete"}
+{"timestamp":1728497769389,"username":"laurenfazah","processName":"curl","processId":4056,"processCommandLine":"curl http://example.com:80","destinationAddress":"example.com","destinationPort":80,"sourceAddress":"127.0.0.1","sourcePort":4955,"dataAmountSent":0,"protocol":"tcp"}
+{"timestamp":1728497781841,"username":"laurenfazah","processName":"./scripts/http_request.sh","processId":2324,"processCommandLine":"./scripts/http_request.sh http://example.com"}
+{"timestamp":1728497781844,"username":"laurenfazah","processName":"touch","processId":3026,"processCommandLine":"touch ./file-create.md","path":"./file-create.md","action":"create"}
+{"timestamp":1728497781844,"username":"laurenfazah","processName":"vim","processId":3838,"processCommandLine":"vim ./file-modify.md","path":"./file-modify.md","action":"modify"}
+{"timestamp":1728497781845,"username":"laurenfazah","processName":"rm","processId":1329,"processCommandLine":"rm ./file-create.md","path":"./file-create.md","action":"delete"}
+{"timestamp":1728497781845,"username":"laurenfazah","processName":"curl","processId":4809,"processCommandLine":"curl http://example.com:80","destinationAddress":"example.com","destinationPort":80,"sourceAddress":"127.0.0.1","sourcePort":7590,"dataAmountSent":0,"protocol":"tcp"}
