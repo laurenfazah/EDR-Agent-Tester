@@ -22,8 +22,8 @@ const startProcess = (path, args) => {
         }
     });
     return {
-        timestamp: timestamp,
-        username: username,
+        timestamp,
+        username,
         processName: path,
         processId: processId,
         processCommandLine: execCommand
@@ -32,15 +32,15 @@ const startProcess = (path, args) => {
 exports.startProcess = startProcess;
 const createFile = (path, content) => {
     const username = os_1.default.userInfo().username;
-    let timestamp = Date.now();
+    const timestamp = Date.now();
     fs_1.default.writeFileSync(path, content);
     return {
-        timestamp: timestamp,
-        username: username,
+        timestamp,
+        username,
         processName: 'node',
         processId: process.pid,
         processCommandLine: `touch ${path}`,
-        path: path,
+        path,
         action: 'create'
     };
 };
@@ -50,30 +50,30 @@ const modifyFile = (path, change) => {
     // TODO | QUESTION: what is being modified? contents?
     // would use fs.appendFile if we're adding to file
     // would use fs.writeFile if we're overwriting existing file contents (assuming this for now)
-    let timestamp = Date.now();
+    const timestamp = Date.now();
     fs_1.default.writeFileSync(path, change);
     return {
-        timestamp: timestamp,
-        username: username,
+        timestamp,
+        username,
         processName: 'node',
         processId: process.pid,
         processCommandLine: `vim ${path}`,
-        path: path,
+        path,
         action: 'modify'
     };
 };
 exports.modifyFile = modifyFile;
 const deleteFile = (path) => {
     const username = os_1.default.userInfo().username;
-    let timestamp = Date.now();
+    const timestamp = Date.now();
     fs_1.default.unlinkSync(path);
     return {
-        timestamp: timestamp,
-        username: username,
+        timestamp,
+        username,
         processName: 'node',
         processId: process.pid,
         processCommandLine: `rm ${path}`,
-        path: path,
+        path,
         action: 'delete'
     };
 };
@@ -84,8 +84,8 @@ const establishNetworkConnection = (dest, port) => {
     const username = os_1.default.userInfo().username;
     const sourcePort = Math.floor(Math.random() * 10000);
     const client = new net_1.default.Socket();
+    const timestamp = Date.now();
     let totalDataSent = 0;
-    let timestamp = Date.now();
     client.connect(port, dest, () => {
         console.log(`Connecting from ${sourceAddress}:${sourcePort} to ${dest}:${port}`);
         const data = Buffer.from('This is a stand-in for transmitted data.');
@@ -99,8 +99,8 @@ const establishNetworkConnection = (dest, port) => {
         console.log(`Connection error: ${error.message}`);
     });
     return {
-        timestamp: timestamp,
-        username: username,
+        timestamp,
+        username,
         processName: 'curl',
         processId: process.pid, // current node.js process
         processCommandLine: `curl http://${dest}:${port}`,
@@ -109,7 +109,7 @@ const establishNetworkConnection = (dest, port) => {
         sourceAddress: sourceAddress,
         sourcePort: sourcePort,
         dataAmountSent: totalDataSent,
-        protocol: protocol
+        protocol,
     };
 };
 exports.establishNetworkConnection = establishNetworkConnection;
