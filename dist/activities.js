@@ -11,6 +11,7 @@ const child_process_1 = require("child_process");
 const startProcess = (path, args) => {
     const username = os_1.default.userInfo().username;
     const execCommand = `${path} ${args.join(' ')}`;
+    const processId = (0, child_process_1.spawn)(path, args).pid;
     const timestamp = Date.now();
     (0, child_process_1.exec)(execCommand, (error, stdout, _stderr) => {
         if (error) {
@@ -24,55 +25,55 @@ const startProcess = (path, args) => {
         timestamp: timestamp,
         username: username,
         processName: path,
-        processId: Math.floor(Math.random() * 10000),
+        processId: processId,
         processCommandLine: execCommand
     };
 };
 exports.startProcess = startProcess;
-const createFile = (filePath, content) => {
+const createFile = (path, content) => {
     const username = os_1.default.userInfo().username;
     let timestamp = Date.now();
-    fs_1.default.writeFileSync(filePath, content);
+    fs_1.default.writeFileSync(path, content);
     return {
         timestamp: timestamp,
         username: username,
-        processName: 'touch',
-        processId: Math.floor(Math.random() * 10000),
-        processCommandLine: `touch ${filePath}`,
-        path: filePath,
+        processName: 'node',
+        processId: process.pid,
+        processCommandLine: `touch ${path}`,
+        path: path,
         action: 'create'
     };
 };
 exports.createFile = createFile;
-const modifyFile = (filePath, change) => {
+const modifyFile = (path, change) => {
     const username = os_1.default.userInfo().username;
     // TODO | QUESTION: what is being modified? contents?
     // would use fs.appendFile if we're adding to file
     // would use fs.writeFile if we're overwriting existing file contents (assuming this for now)
     let timestamp = Date.now();
-    fs_1.default.writeFileSync(filePath, change);
+    fs_1.default.writeFileSync(path, change);
     return {
         timestamp: timestamp,
         username: username,
-        processName: 'vim',
-        processId: Math.floor(Math.random() * 10000),
-        processCommandLine: `vim ${filePath}`,
-        path: filePath,
+        processName: 'node',
+        processId: process.pid,
+        processCommandLine: `vim ${path}`,
+        path: path,
         action: 'modify'
     };
 };
 exports.modifyFile = modifyFile;
-const deleteFile = (filePath) => {
+const deleteFile = (path) => {
     const username = os_1.default.userInfo().username;
     let timestamp = Date.now();
-    fs_1.default.unlinkSync(filePath);
+    fs_1.default.unlinkSync(path);
     return {
         timestamp: timestamp,
         username: username,
-        processName: 'rm',
-        processId: Math.floor(Math.random() * 10000),
-        processCommandLine: `rm ${filePath}`,
-        path: filePath,
+        processName: 'node',
+        processId: process.pid,
+        processCommandLine: `rm ${path}`,
+        path: path,
         action: 'delete'
     };
 };
@@ -101,7 +102,7 @@ const establishNetworkConnection = (dest, port) => {
         timestamp: timestamp,
         username: username,
         processName: 'curl',
-        processId: Math.floor(Math.random() * 10000),
+        processId: process.pid, // current node.js process
         processCommandLine: `curl http://${dest}:${port}`,
         destinationAddress: dest,
         destinationPort: port,

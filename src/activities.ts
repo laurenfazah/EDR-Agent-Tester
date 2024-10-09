@@ -1,12 +1,13 @@
 import fs from 'fs';
 import net from 'net';
 import os from 'os';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
 
 export const startProcess = (path: string, args: string[]): BaseActivity => {
   const username = os.userInfo().username;
   const execCommand = `${path} ${args.join(' ')}`;
+  const processId = spawn(path, args).pid;
   const timestamp = Date.now();
 
   exec(execCommand, (error, stdout, _stderr) => {
@@ -21,29 +22,29 @@ export const startProcess = (path: string, args: string[]): BaseActivity => {
     timestamp: timestamp,
     username: username,
     processName: path,
-    processId: Math.floor(Math.random() * 10000),
+    processId: processId,
     processCommandLine: execCommand
   };
 };
 
-export const createFile = (filePath: string, content: string): FileActivity => {
+export const createFile = (path: string, content: string): FileActivity => {
   const username = os.userInfo().username;
   let timestamp = Date.now();
 
-  fs.writeFileSync(filePath, content);
+  fs.writeFileSync(path, content);
 
   return {
     timestamp: timestamp,
     username: username,
-    processName: 'touch',
-    processId: Math.floor(Math.random() * 10000),
-    processCommandLine: `touch ${filePath}`,
-    path: filePath,
+    processName: 'node',
+    processId: process.pid,
+    processCommandLine: `touch ${path}`,
+    path: path,
     action: 'create'
   };
 };
 
-export const modifyFile = (filePath: string, change: string): FileActivity => {
+export const modifyFile = (path: string, change: string): FileActivity => {
   const username = os.userInfo().username;
   // TODO | QUESTION: what is being modified? contents?
   // would use fs.appendFile if we're adding to file
@@ -51,32 +52,32 @@ export const modifyFile = (filePath: string, change: string): FileActivity => {
 
   let timestamp = Date.now();
 
-  fs.writeFileSync(filePath, change);
+  fs.writeFileSync(path, change);
 
   return {
     timestamp: timestamp,
     username: username,
-    processName: 'vim',
-    processId: Math.floor(Math.random() * 10000),
-    processCommandLine: `vim ${filePath}`,
-    path: filePath,
+    processName: 'node',
+    processId: process.pid,
+    processCommandLine: `vim ${path}`,
+    path: path,
     action: 'modify'
   };
 };
 
-export const deleteFile = (filePath: string): FileActivity => {
+export const deleteFile = (path: string): FileActivity => {
   const username = os.userInfo().username;
   let timestamp = Date.now();
 
-  fs.unlinkSync(filePath);
+  fs.unlinkSync(path);
 
   return {
     timestamp: timestamp,
     username: username,
-    processName: 'rm',
-    processId: Math.floor(Math.random() * 10000),
-    processCommandLine: `rm ${filePath}`,
-    path: filePath,
+    processName: 'node',
+    processId: process.pid,
+    processCommandLine: `rm ${path}`,
+    path: path,
     action: 'delete'
   };
 };
@@ -111,7 +112,7 @@ export const establishNetworkConnection = (dest: string, port: number): NetworkA
     timestamp: timestamp,
     username: username,
     processName: 'curl',
-    processId: Math.floor(Math.random() * 10000),
+    processId: process.pid, // current node.js process
     processCommandLine: `curl http://${dest}:${port}`,
     destinationAddress: dest,
     destinationPort: port,
