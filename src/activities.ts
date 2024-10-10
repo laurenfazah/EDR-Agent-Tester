@@ -3,6 +3,7 @@ import net from 'net';
 import os from 'os';
 import { exec, spawn } from 'child_process';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
+import { getLocalIPAddress } from './helpers';
 
 export const startProcess = (path: string, args: string[]): BaseActivity => {
   const username = os.userInfo().username;
@@ -84,7 +85,7 @@ export const deleteFile = (path: string): FileActivity => {
 
 export const establishNetworkConnection = (dest: string, port: number): NetworkActivity => {
   const protocol = 'tcp';
-  const sourceAddress = '127.0.0.1';
+  const sourceAddress = getLocalIPAddress() || '127.0.0.1';
   const username = os.userInfo().username;
   const sourcePort = Math.floor(Math.random() * 10000);
   const client = new net.Socket();
