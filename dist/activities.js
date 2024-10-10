@@ -48,11 +48,8 @@ const createFile = (path, content) => {
 exports.createFile = createFile;
 const modifyFile = (path, change) => {
     const username = os_1.default.userInfo().username;
-    // TODO | QUESTION: what is being modified? contents?
-    // would use fs.appendFile if we're adding to file
-    // would use fs.writeFile if we're overwriting existing file contents (assuming this for now)
     const timestamp = Date.now();
-    fs_1.default.writeFileSync(path, change);
+    fs_1.default.appendFileSync(path, `\n${change}`);
     return {
         timestamp,
         username,

@@ -47,13 +47,9 @@ export const createFile = (path: string, content: string): FileActivity => {
 
 export const modifyFile = (path: string, change: string): FileActivity => {
   const username = os.userInfo().username;
-  // TODO | QUESTION: what is being modified? contents?
-  // would use fs.appendFile if we're adding to file
-  // would use fs.writeFile if we're overwriting existing file contents (assuming this for now)
-
   const timestamp = Date.now();
 
-  fs.writeFileSync(path, change);
+  fs.appendFileSync(path, `\n${change}`);
 
   return {
     timestamp,
