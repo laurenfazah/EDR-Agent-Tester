@@ -8,6 +8,7 @@ const fs_1 = __importDefault(require("fs"));
 const net_1 = __importDefault(require("net"));
 const os_1 = __importDefault(require("os"));
 const child_process_1 = require("child_process");
+const helpers_1 = require("./helpers");
 const startProcess = (path, args) => {
     const username = os_1.default.userInfo().username;
     const execCommand = `${path} ${args.join(' ')}`;
@@ -80,7 +81,7 @@ const deleteFile = (path) => {
 exports.deleteFile = deleteFile;
 const establishNetworkConnection = (dest, port) => {
     const protocol = 'tcp';
-    const sourceAddress = '127.0.0.1';
+    const sourceAddress = (0, helpers_1.getLocalIPAddress)() || '127.0.0.1';
     const username = os_1.default.userInfo().username;
     const sourcePort = Math.floor(Math.random() * 10000);
     const client = new net_1.default.Socket();
@@ -106,8 +107,8 @@ const establishNetworkConnection = (dest, port) => {
         processCommandLine: `curl http://${dest}:${port}`,
         destinationAddress: dest,
         destinationPort: port,
-        sourceAddress: sourceAddress,
-        sourcePort: sourcePort,
+        sourceAddress,
+        sourcePort,
         dataAmountSent: totalDataSent,
         protocol,
     };
