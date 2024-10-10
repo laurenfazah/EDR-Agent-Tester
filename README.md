@@ -7,4 +7,4 @@ This program is designed to simulate various system activities that might occur 
 Clone and cd into repository, then run the following:
 * Install modules using `npm install`
 * Compile TypeScript using `npx tsc`
-* Run the simulation using `node dist/index.js <args>`. For example, `node dist/index.js https://example.com`
+* Run the simulation using `node dist/index.js`

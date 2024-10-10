@@ -7,27 +7,33 @@ exports.establishNetworkConnection = exports.deleteFile = exports.modifyFile = e
 const fs_1 = __importDefault(require("fs"));
 const net_1 = __importDefault(require("net"));
 const os_1 = __importDefault(require("os"));
+const path_1 = __importDefault(require("path"));
 const child_process_1 = require("child_process");
 const helpers_1 = require("./helpers");
-const startProcess = (path, args) => {
+const startProcess = (commandPath, args) => {
     const username = os_1.default.userInfo().username;
-    const execCommand = `${path} ${args.join(' ')}`;
-    const processId = (0, child_process_1.spawn)(path, args).pid;
     const timestamp = Date.now();
-    (0, child_process_1.exec)(execCommand, (error, stdout, _stderr) => {
-        if (error) {
-            console.log(`Error executing process: ${error}`);
-        }
-        else {
-            console.log(`Process output: ${stdout}`);
-        }
-    });
+    let command;
+    let commandArgs;
+    let processName;
+    if (path_1.default.extname(commandPath) === '.sh') {
+        command = 'bash';
+        commandArgs = [commandPath, ...args];
+        processName = 'bash';
+    }
+    else {
+        command = commandPath;
+        commandArgs = args;
+        processName = path_1.default.basename(commandPath);
+    }
+    const childProcess = (0, child_process_1.spawn)(command, commandArgs);
+    const commandLine = `${command} ${commandArgs.join(' ')}`;
     return {
         timestamp,
         username,
-        processName: path,
-        processId: processId,
-        processCommandLine: execCommand
+        processName,
+        processId: childProcess.pid,
+        processCommandLine: commandLine,
     };
 };
 exports.startProcess = startProcess;

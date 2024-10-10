@@ -1,30 +1,38 @@
 import fs from 'fs';
 import net from 'net';
 import os from 'os';
-import { exec, spawn } from 'child_process';
+import path from 'path';
+import { spawn } from 'child_process';
 import { BaseActivity, FileActivity, NetworkActivity } from './types';
 import { getLocalIPAddress } from './helpers';
 
-export const startProcess = (path: string, args: string[]): BaseActivity => {
+export const startProcess = (commandPath: string, args: string[]): BaseActivity => {
   const username = os.userInfo().username;
-  const execCommand = `${path} ${args.join(' ')}`;
-  const processId = spawn(path, args).pid;
   const timestamp = Date.now();
 
-  exec(execCommand, (error, stdout, _stderr) => {
-    if (error) {
-      console.log(`Error executing process: ${error}`);
-    } else {
-      console.log(`Process output: ${stdout}`);
-    }
-  });
+  let command: string;
+  let commandArgs: string[];
+  let processName: string;
+
+  if (path.extname(commandPath) === '.sh') {
+    command = 'bash';
+    commandArgs = [commandPath, ...args];
+    processName = 'bash';
+  } else {
+    command = commandPath;
+    commandArgs = args;
+    processName = path.basename(commandPath);
+  }
+
+  const childProcess = spawn(command, commandArgs);
+  const commandLine = `${command} ${commandArgs.join(' ')}`;
 
   return {
     timestamp,
     username,
-    processName: path,
-    processId: processId,
-    processCommandLine: execCommand
+    processName,
+    processId: childProcess.pid,
+    processCommandLine: commandLine,
   };
 };
 
