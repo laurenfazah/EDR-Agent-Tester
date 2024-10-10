@@ -39,7 +39,7 @@ export const createFile = (path: string, content: string): FileActivity => {
     username,
     processName: 'node',
     processId: process.pid,
-    processCommandLine: `touch ${path}`,
+    processCommandLine: `node -e "require('fs').writeFileSync(${path}, ${content})`,
     path,
     action: 'create'
   };
@@ -56,7 +56,7 @@ export const modifyFile = (path: string, change: string): FileActivity => {
     username,
     processName: 'node',
     processId: process.pid,
-    processCommandLine: `vim ${path}`,
+    processCommandLine: `node -e "require('fs').appendFileSync(${path}, \n${change})`,
     path,
     action: 'modify'
   };
@@ -73,7 +73,7 @@ export const deleteFile = (path: string): FileActivity => {
     username,
     processName: 'node',
     processId: process.pid,
-    processCommandLine: `rm ${path}`,
+    processCommandLine: `node -e "require('fs').unlinkSync(${path})`,
     path,
     action: 'delete'
   };
@@ -108,9 +108,9 @@ export const establishNetworkConnection = (dest: string, port: number): NetworkA
   return {
     timestamp,
     username,
-    processName: 'curl',
+    processName: 'node',
     processId: process.pid, // current node.js process
-    processCommandLine: `curl http://${dest}:${port}`,
+    processCommandLine: `node -e "require('net').Socket().connect(${port}, '${dest}')"`,
     destinationAddress: dest,
     destinationPort: port,
     sourceAddress,

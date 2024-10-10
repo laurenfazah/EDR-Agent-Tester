@@ -40,7 +40,7 @@ const createFile = (path, content) => {
         username,
         processName: 'node',
         processId: process.pid,
-        processCommandLine: `touch ${path}`,
+        processCommandLine: `node -e "require('fs').writeFileSync(${path}, ${content})`,
         path,
         action: 'create'
     };
@@ -55,7 +55,7 @@ const modifyFile = (path, change) => {
         username,
         processName: 'node',
         processId: process.pid,
-        processCommandLine: `vim ${path}`,
+        processCommandLine: `node -e "require('fs').appendFileSync(${path}, \n${change})`,
         path,
         action: 'modify'
     };
@@ -70,7 +70,7 @@ const deleteFile = (path) => {
         username,
         processName: 'node',
         processId: process.pid,
-        processCommandLine: `rm ${path}`,
+        processCommandLine: `node -e "require('fs').unlinkSync(${path})`,
         path,
         action: 'delete'
     };
@@ -99,9 +99,9 @@ const establishNetworkConnection = (dest, port) => {
     return {
         timestamp,
         username,
-        processName: 'curl',
+        processName: 'node',
         processId: process.pid, // current node.js process
-        processCommandLine: `curl http://${dest}:${port}`,
+        processCommandLine: `node -e "require('net').Socket().connect(${port}, '${dest}')"`,
         destinationAddress: dest,
         destinationPort: port,
         sourceAddress,
