@@ -91,13 +91,15 @@ export const establishNetworkConnection = (dest: string, port: number): NetworkA
   const protocol = 'tcp';
   const sourceAddress = getLocalIPAddress() || '127.0.0.1';
   const username = os.userInfo().username;
-  const sourcePort = Math.floor(Math.random() * 10000);
   const client = new net.Socket();
   const timestamp = Date.now();
+
+  let sourcePort = 0;
 
   let totalDataSent = 0;
 
   client.connect(port, dest, () => {
+    sourcePort = client.localPort || 0;
     console.log(`Connecting from ${sourceAddress}:${sourcePort} to ${dest}:${port}`);
 
     const data = Buffer.from('This is a stand-in for transmitted data.');
